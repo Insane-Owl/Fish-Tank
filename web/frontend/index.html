@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aquarium Dashboard</title>
-</head>
-    <body>
-        <h1>Aquarium Data</h1>
-        <p>pH: <span id="ph">--</span></p>
-        <p>Temperature: <span id="temp">--</span></p>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Aquarium Dashboard</title>
 
-    <script src="jsfile.js"></script>
-</body>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<header>
+			<h1>Fish Tank Monitor</h1>
+		</header>
+		<main>
+			<div class="card camera-feed">
+				<img src="assets/tank-camera-placeholder.png" alt="">
+			</div>
+			<div class="metrics">
+				<div class="card">
+					<a href="" class="log-button">View Logs</a>
+					<p class="label">
+						<img src="assets/icons/thermometer.svg" alt="">
+						Temperature
+					</p>
+					<p class="bold"><span id="temp">78.2</span>°F</p>
+				</div>
+				<div class="card">
+					<a href="" class="log-button">View Logs</a>
+					<p class="label">
+						<img src="assets/icons/droplet.svg" alt="">
+						pH Level
+					</p>
+					<p class="bold"><span id="ph">7.2</span></p>
+				</div>
+				<div class="card">
+					<a href="" class="log-button">View Logs</a>
+					<p class="label">
+						<img src="assets/icons/bubbles.svg" alt="">
+						<span>TDS<br><span class="sublabel">Total Dissolved Solids</span></span>
+					</p>
+					<p class="bold"><span id="tds">180</span>
+					ppm</p>
+				</div>
+			</div>
+		</main>
+	</body>
 </html>
