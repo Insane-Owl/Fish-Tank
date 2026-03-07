@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/api/sensors/history?limit=100";
+const API_URL = "/api/sensors/history?limit=100";
 
 const urlParams = new URLSearchParams(window.location.search);
 // default to temperature in case someone goes directly to the page

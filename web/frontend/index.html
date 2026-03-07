@@ -17,7 +17,17 @@
 					<img src="assets/icons/radio.svg" alt="">
 					LIVE
 				</div>
-				<img src="assets/tank-camera-placeholder.png" alt="">
+				<!-- playsinline is required for older iphones to display properly, apparently -->
+				<video id="video-player" autoplay muted playsinline="true"></video>
+h
+				<button id="fullscreen-btn" class="fullscreen-button" aria-label="Fullscreen">
+					<img src="assets/icons/fullscreen.svg" alt="">
+				</button>
+
+				<div class="camera-controls">
+					<span id="camera-label" class="camera-label">Camera 1</span>
+					<button id="switch-cam-btn" class="switch-button">Switch to Camera 2</button>
+				</div>
 			</div>
 			<div class="metrics">
 				<div class="card">
@@ -60,6 +70,8 @@
 				</div>
 			</div>
 		</main>
+		<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 		<script src="script.js"></script>
+		<script src="stream.js"></script>
 	</body>
 </html>

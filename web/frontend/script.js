@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/api/sensors/latest";
+const API_URL = "/api/sensors/latest";
 
 async function fetchLatestData() {
     try {
@@ -67,5 +67,5 @@ function updateStatus(
 
 fetchLatestData();
 
-// refresh data every 2 seconds
-setInterval(fetchLatestData, 2000);
+// refresh data every minute
+setInterval(fetchLatestData, 60000);

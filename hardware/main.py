@@ -1,10 +1,15 @@
 import json
+import os
 import time
 
 import requests
 import sensor
 
-with open("config.json", "r") as config_file:
+# get directory where main.py is located
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(BASE_DIR, "config.json")
+
+with open(config_path, "r") as config_file:
     config = json.load(config_file)
 
 server_ip = config["server_ip"]
@@ -23,4 +28,4 @@ while True:
     except Exception as e:
         print(f"Failed to send data: {e}")
 
-    time.sleep(5)
+    time.sleep(60)

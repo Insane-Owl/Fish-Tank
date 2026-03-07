@@ -1,8 +1,19 @@
+import json
+import os
 import sqlite3
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+
+config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+try:
+    with open(config_path, "r") as config_file:
+        config = json.load(config_file)
+    allowed_origins = config.get("allowed_origins", ["*"])
+except FileNotFoundError:  # fallback
+    allowed_origins = ["*"]
 
 app = FastAPI()
 
@@ -15,7 +26,7 @@ class SensorReading(BaseModel):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -23,21 +34,19 @@ app.add_middleware(
 
 
 def init_db():
-    conn = sqlite3.connect("fishtank.db")
-    cursor = conn.cursor()
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS sensor_data (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-            temperature REAL,
-            ph REAL,
-            tds REAL
+    with sqlite3.connect("fishtank.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS sensor_data (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                temperature REAL,
+                ph REAL,
+                tds REAL
+            )
+            """
         )
-        """
-    )
-    conn.commit()
-    conn.close()
 
 
 def get_db():
@@ -80,5 +89,10 @@ def add_item(item: SensorReading, db=Depends(get_db)):
 
     return {"message": "Success"}
 
+
+frontend_dir = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend"
+)
+app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 
 init_db()
