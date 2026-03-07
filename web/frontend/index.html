@@ -26,10 +26,10 @@
 						<img src="assets/icons/thermometer.svg" alt="">
 						Temperature
 					</p>
-					<p class="bold"><span id="temp">78.2</span>°F</p>
+					<p class="bold"><span id="temp">--</span>°F</p>
 					<div class="status-indicator">
-						<span class="status-dot optimal"></span>
-						<span class="status-text">Status: Optimal</span>
+						<span id="temp-dot" class="status-dot loading"></span>
+						<span id="temp-text" class="status-text">Status: --</span>
 					</div>
 				</div>
 				<div class="card">
@@ -38,11 +38,11 @@
 						<img src="assets/icons/droplet.svg" alt="">
 						pH Level
 					</p>
-					<p class="bold"><span id="ph">7.2</span>
+					<p class="bold"><span id="ph">--</span>
 					pH</p>
 					<div class="status-indicator">
-						<span class="status-dot optimal"></span>
-						<span class="status-text">Status: Optimal</span>
+						<span id="ph-dot" class="status-dot loading"></span>
+						<span id="ph-text" class="status-text">Status: --</span>
 					</div>
 				</div>
 				<div class="card">
@@ -51,14 +51,15 @@
 						<img src="assets/icons/bubbles.svg" alt="">
 						<span>TDS<br><span class="sublabel">Total Dissolved Solids</span></span>
 					</p>
-					<p class="bold"><span id="tds">180</span>
+					<p class="bold"><span id="tds">--</span>
 					ppm</p>
 					<div class="status-indicator">
-						<span class="status-dot optimal"></span>
-						<span class="status-text">Status: Optimal</span>
+						<span id="tds-dot" class="status-dot loading"></span>
+						<span id="tds-text" class="status-text">Status: --</span>
 					</div>
 				</div>
 			</div>
 		</main>
+		<script src="script.js"></script>
 	</body>
 </html>

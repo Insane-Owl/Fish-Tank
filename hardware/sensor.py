@@ -5,7 +5,7 @@
 
 def get_temperature() -> float:
     # return temp_sensor.get_temperature()
-    return 70.0
+    return 78.2
 
 
 def get_ph() -> float:

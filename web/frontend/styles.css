@@ -178,6 +178,10 @@ main {
             .status-dot.critical {
                 background-color: #dc2626;
             }
+
+            .status-dot.loading {
+                background-color: #4b5563;
+            }
         }
     }
 }
