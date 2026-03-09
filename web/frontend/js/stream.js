@@ -1,4 +1,4 @@
-const stream1 = "http://100.82.82.83:8888/cam1/stream.m3u8";
+const stream1 = "http://100.82.82.83:8888/cam1/index.m3u8";
 const stream2 = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
 
 let currentCamera = 1;
