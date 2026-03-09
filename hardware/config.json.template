@@ -1,7 +1,3 @@
 {
     "server_ip": "YOUR_SERVER_IP",
-    "cameras": {
-        "CAMERA_NAME_1": "CAMERA_PATH_1",
-        "CAMERA_NAME_2": "CAMERA_PATH_2"
-    }
 }
