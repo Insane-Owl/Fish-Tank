@@ -18,7 +18,10 @@
 					LIVE
 				</div>
 				<!-- playsinline is required for older iphones to display properly, apparently -->
-				<video id="video-player" autoplay muted playsinline="true"></video>
+				<div class="video-container">
+					<div id="video-spinner" class="spinner"></div>
+					<video id="video-player" autoplay muted playsinline="true"></video>
+				</div>
 
 				<button id="fullscreen-btn" class="fullscreen-button" aria-label="Fullscreen">
 					<img src="assets/icons/fullscreen.svg" alt="">

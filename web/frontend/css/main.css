@@ -70,6 +70,32 @@ main {
     display: flex;
     flex-direction: column;
 
+    .video-container {
+        position: relative;
+        flex: 1;
+        display: flex;
+        background-color: #000;
+    }
+
+    .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 5;
+        display: none;
+    }
+
+    .spinner.active {
+        display: block;
+    }
+
     .live-badge {
         user-select: none;
         position: absolute;
@@ -279,5 +305,14 @@ video::-webkit-media-controls-panel {
                 margin-bottom: 0;
             }
         }
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 }

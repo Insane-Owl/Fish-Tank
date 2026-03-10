@@ -6,7 +6,23 @@ const stream2 = `http://${hostname}:8888/cam2/index.m3u8`;
 let currentCamera = 1;
 let hls = null;
 
+const videoElement = document.getElementById("video-player");
+const spinnerElement = document.getElementById("video-spinner");
+
+if (videoElement && spinnerElement) {
+    videoElement.addEventListener("playing", () =>
+        spinnerElement.classList.remove("active"),
+    );
+    videoElement.addEventListener("waiting", () =>
+        spinnerElement.classList.add("active"),
+    );
+    videoElement.addEventListener("error", () =>
+        spinnerElement.classList.remove("active"),
+    );
+}
+
 function loadVideoStream(url) {
+    if (spinnerElement) spinnerElement.classList.add("active");
     const video = document.getElementById("video-player");
 
     // clean up the old stream if one exists
