@@ -31,7 +31,17 @@ function loadVideoStream(url) {
     }
 
     if (Hls.isSupported()) {
-        hls = new Hls();
+        hls = new Hls({
+            // start 6 chunks behind the live to build a buffer
+            liveSyncDurationCount: 6,
+            // allow the buffer to grow up to 60 seconds
+            maxBufferLength: 60,
+            maxMaxBufferLength: 60,
+            // give it more time to load chunks before giving up
+            manifestLoadingMaxRetry: 10,
+            levelLoadingMaxRetry: 10,
+            fragLoadingMaxRetry: 10,
+        });
         hls.loadSource(url);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
