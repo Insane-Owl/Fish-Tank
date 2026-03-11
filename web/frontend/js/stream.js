@@ -104,4 +104,6 @@ document.getElementById("fullscreen-btn").addEventListener("click", () => {
     }
 });
 
-loadVideoStream(stream1);
+window.addEventListener("load", () => {
+    loadVideoStream(stream1);
+});
