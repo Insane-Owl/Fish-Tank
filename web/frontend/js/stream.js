@@ -44,6 +44,26 @@ function loadVideoStream(url) {
         });
         hls.loadSource(url);
         hls.attachMedia(video);
+        hls.on(Hls.Events.ERROR, function (event, data) {
+            if (data.fatal) {
+                switch (data.type) {
+                    case Hls.ErrorTypes.NETWORK_ERROR:
+                        console.log(
+                            "Fatal network error, trying to recover...",
+                        );
+                        hls.startLoad();
+                        break;
+                    case Hls.ErrorTypes.MEDIA_ERROR:
+                        console.log("Fatal media error, trying to recover...");
+                        hls.recoverMediaError();
+                        break;
+                    default:
+                        console.log("Unrecoverable error, destroying player.");
+                        hls.destroy();
+                        break;
+                }
+            }
+        });
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play().catch((e) => console.log("Autoplay prevented", e));
         });
