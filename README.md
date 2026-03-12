@@ -88,8 +88,7 @@ MediaMTX is required to translate the raw camera feed into a web-playable format
 
 1.  Copy `hardware-camera.service.template` from `systemd-templates/`.
 2.  Replace `{USERNAME}`.
-3.  Replace `{RTSP_URL}` with your **Server's Tailscale IP** (e.g., `rtsp://100.x.x.x:8554`).
-4.  Replace all instances of `{CAM_NUMBER}` with your current camera number (e.g., `cam1`).
+3.  Replace `{IP_ADDRESS}:{PORT}/{CAMERA_NUMBER}` with your **Server's Tailscale IP**, **MediaMTX Port**, and **Camera Number** (e.g., `rtsp://100.x.x.x:8554/cam1`).
 5.  Save to `/etc/systemd/system/fishtank-camera1.service`. (or camera2 for the second camera)
 6.  Start it: `sudo systemctl enable --now fishtank-camera1`.
 
