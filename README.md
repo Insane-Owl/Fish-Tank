@@ -44,11 +44,13 @@ pip install -r requirements.txt
 
 ### B. Configure and Start the Web API
 
-1.  Copy the `web.service.template` from the `systemd-templates` folder.
-2.  Replace `{USERNAME}` with your server user (e.g., `ubuntu`).
-3.  Replace `{PATH_TO_BACKEND_DIR}` with the absolute path to your `web/backend` folder.
-4.  Save it to `/etc/systemd/system/fishtank-web.service`.
-5.  Start the service:
+1.  Copy `config.json.template` to `config.json` in the `web/backend` folder.
+2.  Edit `config.json` to update `allowed_origins` to include your frontend's IP address an Port for CORS (e.g., `["http://100.x.x.x:8000"]`).
+3.  Copy the `web.service.template` from the `systemd-templates` folder.
+4.  Replace `{USERNAME}` with your server user (e.g., `ubuntu`).
+5.  Replace `{PATH_TO_BACKEND_DIR}` with the absolute path to your `web/backend` folder.
+6.  Save it to `/etc/systemd/system/fishtank-web.service`.
+7.  Start the service:
     ```bash
     sudo systemctl daemon-reload
     sudo systemctl enable --now fishtank-web
