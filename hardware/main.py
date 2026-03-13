@@ -5,10 +5,7 @@ import time
 import requests
 import sensor
 
-# get directory where main.py is located
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(BASE_DIR, "config.json")
-
+config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
 with open(config_path, "r") as config_file:
     config = json.load(config_file)
 

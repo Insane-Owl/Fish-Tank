@@ -1,3 +1,5 @@
 {
     "server_ip": "YOUR_SERVER_IP",
+    "PH_SLOPE": -5.77,
+    "PH_INTERCEPT": 21.48,
 }
