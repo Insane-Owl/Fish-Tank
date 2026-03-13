@@ -100,9 +100,6 @@ MediaMTX is required to translate the raw camera feed into a web-playable format
 
 ## 5. Troubleshooting & Architecture Notes
 
-**Why use a named pipe for the video?**
-Newer versions of `rpicam-vid` (or maybe just the version that came with our off-brand cameras) will crash with a `libav` format error if you attempt to pipe raw video directly to a stdout for network streaming. Creating a named pipe with the `.h264` extension works around it.
-
 **Why does ffmpeg use `-pkt_size 1200`?**
 Tailscale (And WireGuard) have strict MTU (Maximum Transmission Unit) limits. This means that forcing smaller packet sizes is necessary to avoid massive packet loss and a crashed stream.
 
