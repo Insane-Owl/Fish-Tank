@@ -1,6 +1,12 @@
 import json
 import os
 
+"""
+I wrap all of the sensor imports in try/except blocks, because they will crash the script
+if something isn't hooked up, and I want to return placeholder values if a sensor is missing
+so that once we hook everything up, it should be mostly plug and play.
+"""
+
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
 try:
     with open(config_path, "r") as config_file:
