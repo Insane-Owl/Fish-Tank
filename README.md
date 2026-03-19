@@ -62,7 +62,8 @@ MediaMTX is required to translate the raw camera feed into a web-playable format
 
 1.  Download the latest release from the [MediaMTX GitHub](https://github.com/bluenviron/mediamtx/releases).
 2.  Extract it into a folder (e.g., `~/mediamtx`).
-3.  Create a systemd service for it (similar to the web API) to keep it running in the background. Make sure the `ExecStart` points to the `mediamtx` binary and its `.yml` config file.
+3.  **Important:** Open `mediamtx.yml` and set `hlsAlwaysRemux: true`. This forces the server to constantly convert the video to HLS in the background instead of on-demand, eliminating the very long loading times when you first open the dashboard.
+4.  Create a systemd service for it (similar to the web API) to keep it running in the background. Make sure the `ExecStart` points to the `mediamtx` binary and its `.yml` config file.
 
 **Firewall Note:** Expose ports `8000` (Web UI) and `8888` (HLS Video) in your cloud provider's firewall.
 
