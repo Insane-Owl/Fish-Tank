@@ -1,7 +1,7 @@
 const hostname = window.location.hostname;
 
-const stream1 = `http://${hostname}:8888/cam1/index.m3u8`;
-const stream2 = `http://${hostname}:8888/cam2/index.m3u8`;
+const stream1 = `http://${hostname}:8888/cam0/index.m3u8`;
+const stream2 = `http://${hostname}:8888/cam1/index.m3u8`;
 
 let currentCamera = 1;
 let hls = null;
