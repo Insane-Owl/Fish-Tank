@@ -89,12 +89,15 @@ MediaMTX is required to translate the raw camera feed into a web-playable format
 \*Note: This relies on `rpicam-vid` and `ffmpeg` being installed on the Pi.
 
 1.  Copy `hardware-camera.service.template` from `systemd-templates/`.
-2.  Replace `{USERNAME}`.
-3.  Replace `{IP_ADDRESS}:{PORT}/{CAMERA_NUMBER}` with your **Server's Tailscale IP**, **MediaMTX Port**, and **Camera Number** (e.g., `rtsp://100.x.x.x:8554/cam1`).
-5.  Save to `/etc/systemd/system/fishtank-camera1.service`. (or camera2 for the second camera)
-6.  Start it: `sudo systemctl enable --now fishtank-camera1`.
+2.  Replace `{USERNAME}` with your Pi user.
+3.  Replace `{IP_ADDRESS}:{PORT}` with your **Server's Tailscale IP** and **MediaMTX Port** (e.g., `100.x.x.x:8554`).
+4.  Save the file to `/etc/systemd/system/fishtank-camera@.service` (note the `@` symbol, this makes it a systemd template).
+5.  Start it for a specific camera by passing the camera number after the `@` (e.g., for camera `0`):
+    ```bash
+    sudo systemctl enable --now fishtank-camera@0
+    ```
 
-**Repeat these steps again for the second camera.**
+**To start more cameras, run the enable command again with the new camera number (e.g., `sudo systemctl enable --now fishtank-camera@1`).**
 
 ---
 

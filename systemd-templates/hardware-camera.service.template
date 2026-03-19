@@ -1,11 +1,11 @@
 [Unit]
-Description=Fish Tank Camera Stream
+Description=Camera Stream %i
 After=network-online.target
 StartLimitIntervalSec=0
 
 [Service]
 User={USERNAME}
-ExecStart=/bin/bash -c '/usr/bin/rpicam-vid -t 0 --codec h264 --libav-format h264 --inline --intra 30 --mode 2304:1296 --width 1280 --height 720 --profile high --level 4.2 --bitrate 5000000 --denoise cdn_off -o - | /usr/bin/ffmpeg -use_wallclock_as_timestamps 1 -f h264 -i - -c:v copy -rtsp_transport tcp -f rtsp -pkt_size 1200 rtsp://{IP_ADDRESS}:{PORT}/{CAMERA_NUMBER}'
+ExecStart=/bin/bash -c '/usr/bin/rpicam-vid -t 0 --camera %i --codec h264 --libav-format h264 --inline --intra 30 --mode 2304:1296 --width 1280 --height 720 --profile high --level 4.2 --bitrate 5000000 --denoise cdn_off -o - | /usr/bin/ffmpeg -use_wallclock_as_timestamps 1 -f h264 -i - -c:v copy -rtsp_transport tcp -f rtsp -pkt_size 1200 rtsp://{IP_ADDRESS}:{PORT}/cam%i'
 Restart=always
 RestartSec=5
 
