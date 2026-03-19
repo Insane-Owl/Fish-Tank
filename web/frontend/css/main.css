@@ -89,6 +89,7 @@ main {
         flex: 1;
         display: flex;
         background-color: #000;
+        aspect-ratio: 16 / 9;
     }
 
     .spinner {
