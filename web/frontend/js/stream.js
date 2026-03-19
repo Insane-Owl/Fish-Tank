@@ -37,18 +37,24 @@ function loadVideoStream(url) {
 
     if (Hls.isSupported()) {
         hls = new Hls({
-            // start 6 chunks behind the live to build a buffer
-            liveSyncDurationCount: 6,
-            // allow the buffer to grow up to 60 seconds
-            maxBufferLength: 60,
-            maxMaxBufferLength: 60,
+            // start 3 chunks behind the live to build a buffer
+            liveSyncDurationCount: 3,
+            // if it falls more than 10 chunks behind (such as a background tab), resync to live
+            liveMaxLatencyDurationCount: 10,
+            // allow the buffer to grow up to 15 seconds
+            maxBufferLength: 15,
+            maxMaxBufferLength: 15,
             // give it more time to load chunks before giving up
             manifestLoadingMaxRetry: 10,
             levelLoadingMaxRetry: 10,
             fragLoadingMaxRetry: 10,
+            // speed up playback to catch up if behind the live
+            maxLiveSyncPlaybackRate: 1.5,
         });
         hls.loadSource(url);
         hls.attachMedia(video);
+
+        let errorRecoveryAttempts = 0;
         hls.on(Hls.Events.ERROR, function (event, data) {
             if (data.fatal) {
                 switch (data.type) {
@@ -56,15 +62,32 @@ function loadVideoStream(url) {
                         console.log(
                             "Fatal network error, trying to recover...",
                         );
-                        hls.startLoad();
+                        if (errorRecoveryAttempts < 3) {
+                            errorRecoveryAttempts++;
+                            hls.startLoad();
+                        } else {
+                            console.log(
+                                "Too many network errors, reloading stream...",
+                            );
+                            setTimeout(() => loadVideoStream(url), 2000);
+                        }
                         break;
                     case Hls.ErrorTypes.MEDIA_ERROR:
                         console.log("Fatal media error, trying to recover...");
-                        hls.recoverMediaError();
+                        if (errorRecoveryAttempts < 3) {
+                            errorRecoveryAttempts++;
+                            hls.recoverMediaError();
+                        } else {
+                            console.log(
+                                "Too many media errors, reloading stream...",
+                            );
+                            setTimeout(() => loadVideoStream(url), 2000);
+                        }
                         break;
                     default:
-                        console.log("Unrecoverable error, destroying player.");
+                        console.log("Unrecoverable error, reloading player...");
                         hls.destroy();
+                        setTimeout(() => loadVideoStream(url), 2000);
                         break;
                 }
             }
@@ -72,7 +95,7 @@ function loadVideoStream(url) {
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play().catch((e) => console.log("Autoplay prevented", e));
         });
-    } else if (video.canPlayType("application/vnd.apple.mepgurl")) {
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
         video.src = url;
         video.addEventListener("loadedmetadata", function () {
             video.play().catch((e) => console.log("Autoplay prevented", e));
