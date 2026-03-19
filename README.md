@@ -5,8 +5,8 @@ This is a Fish Tank monitoring tool.
 ## Architecture Overview
 
 - **Hardware (Raspberry Pi):** Reads sensors (Temperature, pH, and TDS ) every 60 seconds. Streams h264 video.
-- **Networking (Tailscale):** Creates a secure VPN tunnel between the Pi and the server. No public ports are exposed.
-- **Backend (EC2):** A Python FastAPI server backed by SQLite for data storage, and MediaMTX for converting raw RTSP video into web-friendly HLS streams.
+- **Networking (Tailscale):** Creates a secure VPN tunnel between the Pi and the server. No backend public ports are exposed.
+- **Backend (EC2):** A Python FastAPI server using SQLite for data storage, and MediaMTX for converting raw RTSP video into web-friendly HLS streams.
 - **Frontend:** An HTML/JS dashboard featuring real-time sensor data, historical logs, "smart" status alerts, and a custom livestream player.
 
 ---
@@ -21,6 +21,7 @@ Before installing, you must set up the VPN. Here are instructions on setting up 
     - `sudo tailscale up`
 3.  Install Tailscale on your Raspberry Pi and authenticate it.
 4.  Note the **Tailscale IP address** (starts with `100.x.x.x`) of your cloud server. You will need this for the configuration files.
+5.  (Optional) Disable key expiry for the Pi and Server so you won't need to reauthenticate them every 180 days.
 
 ---
 
@@ -46,11 +47,10 @@ pip install -r requirements.txt
 
 1.  Copy `config.json.template` to `config.json` in the `web/backend` folder.
 2.  Edit `config.json` to update `allowed_origins` to include your frontend's IP address an Port for CORS (e.g., `["http://100.x.x.x:8000"]`).
-3.  Copy the `web.service.template` from the `systemd-templates` folder.
+3.  Copy the `web.service.template` from the `systemd-templates` folder to `/etc/systemd/system/fishtank-web.service`.
 4.  Replace `{USERNAME}` with your server user (e.g., `ubuntu`).
 5.  Replace `{PATH_TO_BACKEND_DIR}` with the absolute path to your `web/backend` folder.
-6.  Save it to `/etc/systemd/system/fishtank-web.service`.
-7.  Start the service:
+6.  Start the service:
     ```bash
     sudo systemctl daemon-reload
     sudo systemctl enable --now fishtank-web
@@ -75,25 +75,29 @@ MediaMTX is required to translate the raw camera feed into a web-playable format
 
 1.  Clone this repository to the Pi.
 2.  Navigate to the `hardware/` folder.
-3.  Copy `config.json.template` to `config.json`.
-4.  Edit `config.json` and change the IP address to your **Server's Tailscale IP** (e.g., `100.x.x.x:8000`).
+3.  Set up the Python environment and install the required dependencies:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
+4.  Copy `config.json.template` to `config.json`.
+5.  Edit `config.json` and change the IP address to your **Server's Tailscale IP** (e.g., `100.x.x.x:8000`).
 
 ### B. Start the Sensor Service
 
-1.  Copy `hardware-sensor.service.template` from `systemd-templates/`.
+1.  Copy `hardware-sensor.service.template` from `systemd-templates/` to `/etc/systemd/system/fishtank-sensor.service`.
 2.  Replace the placeholders (`{USERNAME}`, `{PATH_TO_HARDWARE_DIR}`).
-3.  Save to `/etc/systemd/system/fishtank-sensor.service`.
-4.  Start it: `sudo systemctl enable --now fishtank-sensor`.
+3.  Start it: `sudo systemctl enable --now fishtank-sensor`.
 
 ### C. Start the Camera Services
 
 \*Note: This relies on `rpicam-vid` and `ffmpeg` being installed on the Pi.
 
-1.  Copy `hardware-camera.service.template` from `systemd-templates/`.
+1.  Copy `hardware-camera.service.template` from `systemd-templates/` to `/etc/systemd/system/fishtank-camera@.service` (note the `@` symbol, this makes it a systemd template).
 2.  Replace `{USERNAME}` with your Pi user.
 3.  Replace `{IP_ADDRESS}:{PORT}` with your **Server's Tailscale IP** and **MediaMTX Port** (e.g., `100.x.x.x:8554`).
-4.  Save the file to `/etc/systemd/system/fishtank-camera@.service` (note the `@` symbol, this makes it a systemd template).
-5.  Start it for a specific camera by passing the camera number after the `@` (e.g., for camera `0`):
+4.  Start it for a specific camera by passing the camera number after the `@` (e.g., for camera `0`):
     ```bash
     sudo systemctl enable --now fishtank-camera@0
     ```

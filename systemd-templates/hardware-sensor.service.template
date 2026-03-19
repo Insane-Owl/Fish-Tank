@@ -5,7 +5,7 @@ After=network-online.target
 [Service]
 User={USERNAME}
 WorkingDirectory={PATH_TO_HARDWARE_DIR}
-ExecStart=/usr/bin/python3 {PATH_TO_HARDWARE_DIR}/main.py
+ExecStart={PATH_TO_HARDWARE_DIR}/venv/bin/python {PATH_TO_HARDWARE_DIR}/main.py
 Restart=always
 RestartSec=5
 
