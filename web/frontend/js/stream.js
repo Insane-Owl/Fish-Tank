@@ -40,14 +40,14 @@ function loadVideoStream(url) {
             // start 3 chunks behind the live to build a buffer
             liveSyncDurationCount: 3,
             // if it falls more than 10 chunks behind (such as a background tab), resync to live
-            liveMaxLatencyDurationCount: 10,
+            liveMaxLatencyDurationCount: 5,
             // allow the buffer to grow up to 15 seconds
             maxBufferLength: 15,
             maxMaxBufferLength: 15,
             // give it more time to load chunks before giving up
-            manifestLoadingMaxRetry: 10,
-            levelLoadingMaxRetry: 10,
-            fragLoadingMaxRetry: 10,
+            manifestLoadingMaxRetry: 3,
+            levelLoadingMaxRetry: 3,
+            fragLoadingMaxRetry: 3,
             // speed up playback to catch up if behind the live
             maxLiveSyncPlaybackRate: 1.5,
         });
