@@ -62,3 +62,16 @@ def button_4_pressed() -> None:
     stored_v4 = get_stable_voltage()
     print("pH 4 voltage read and saved.")
     calibrate_ph()
+
+
+if __name__ == "__main__":
+    print("Calibration script started.")
+
+    while True:
+        action = input("Simulate button press (7 or 4): ").strip()
+        if action == "7":
+            button_7_pressed()
+        elif action == "4":
+            button_4_pressed()
+        else:
+            print("Invalid input.")
