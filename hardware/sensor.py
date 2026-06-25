@@ -74,10 +74,6 @@ def get_ph() -> float:
         return 0.0
 
 
-def calibrate_ph() -> None:
-    pass
-
-
 def get_tds() -> float:
     if tds_channel is None:
         print("TDS reading failed: tds_channel is None")
